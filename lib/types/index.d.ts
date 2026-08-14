@@ -1,11 +1,12 @@
 /**
- * System Monitor host half: registers one `GET` route that samples the system
- * once per request. The browser overlay polls it every second. The route
- * carries no session state, so any origin request gets the same fresh sample.
+ * System Monitor host half: a background sampler refreshes the cached system
+ * snapshot once per second, and one `GET` route serves that cached value — no
+ * per-request subprocess, so a flood of requests cannot amplify sampling. The
+ * route rejects non-GET methods and cross-origin browsers, so a rogue page
+ * cannot read host telemetry either.
  * @module @dsh-external/dsh-sysmon
  */
 import type { IncomingMessage, ServerResponse } from 'node:http';
-import { parseSysInfoOutput } from './collect.ts';
 /** The subset of the Cordis host context this plugin reads. */
 interface HostContext {
     webServer: {
@@ -15,8 +16,21 @@ interface HostContext {
             handler(req: IncomingMessage, res: ServerResponse): Promise<void> | void;
         }): () => void;
     };
+    shell: {
+        resolve(request: {
+            command: string;
+            timeoutMs?: number;
+            stdoutMaxBytes?: number;
+        }): unknown;
+        run(spec: unknown): Promise<{
+            exitCode: number | null;
+            stdout: {
+                text: string;
+            };
+        }>;
+    };
     effect(callback: () => (() => void), label?: string): void;
 }
 export declare const inject: string[];
 export declare function apply(ctx: HostContext): void;
-export { parseSysInfoOutput };
+export {};
