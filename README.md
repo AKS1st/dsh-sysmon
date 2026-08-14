@@ -27,10 +27,17 @@ CPU 39%/16    MEM 46%    DISK 22%
 
 ## 安装
 
-从 git 仓库安装：
+从 GitHub 仓库安装：
 
 ```sh
-git clone <repo-url>
+dsh plugin --profile web add github:AKS1st/dsh-sysmon
+dsh web
+```
+
+或者 clone 到本地后从本地目录安装：
+
+```sh
+git clone https://github.com/AKS1st/dsh-sysmon.git
 cd dsh-sysmon
 npm install
 npm run build
