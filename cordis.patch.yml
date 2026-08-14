@@ -1,0 +1,3 @@
+- insert:
+    - id: sysmon
+      name: '@dsh-external/dsh-sysmon'
