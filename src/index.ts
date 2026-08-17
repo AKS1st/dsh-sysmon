@@ -4,7 +4,7 @@
  * per-request subprocess, so a flood of requests cannot amplify sampling. The
  * route rejects non-GET methods and cross-origin browsers, so a rogue page
  * cannot read host telemetry either.
- * @module @dsh-external/dsh-sysmon
+ * @module dsh-sysmon
  */
 
 import type { IncomingMessage, ServerResponse } from 'node:http'

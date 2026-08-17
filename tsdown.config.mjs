@@ -1,4 +1,4 @@
-const id = '@dsh-external/dsh-sysmon'
+const id = 'dsh-sysmon'
 
 export default [{
   entry: ['lib/types/index.js', 'lib/types/invariant.js'],

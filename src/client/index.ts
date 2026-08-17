@@ -8,7 +8,7 @@
  * above 90% red, CPU follows the lenient total-capacity scale (>=90% of all
  * cores orange, >=98% red). The overlay is click-through and never blocks the
  * app underneath; repaints update only the three value nodes.
- * @module @dsh-external/dsh-sysmon/client
+ * @module dsh-sysmon/client
  */
 
 import { SYSINFO_ROUTE, cpuWarnLevel, warnLevel, type SysInfo, type SysInfoResponse, type WarnLevel } from '../protocol.ts'

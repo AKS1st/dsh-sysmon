@@ -1,6 +1,6 @@
 {
-  "name": "@dsh-external/dsh-sysmon",
-  "version": "0.1.1",
+  "name": "dsh-sysmon",
+  "version": "0.2.0",
   "description": "DSH Web 右下角系统状态悬浮窗：CPU（x%/y）、内存、磁盘占用，1 秒刷新",
   "type": "module",
   "repository": {
