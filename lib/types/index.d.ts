@@ -30,6 +30,7 @@ interface HostContext {
         }>;
     };
     effect(callback: () => (() => void), label?: string): void;
+    interval(callback: () => void, delay: number): () => void;
 }
 export declare const inject: string[];
 export declare function apply(ctx: HostContext): void;

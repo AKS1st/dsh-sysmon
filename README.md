@@ -45,7 +45,7 @@ dsh web
 
 ## 工作方式
 
-- **Host**（`src/index.ts`）：`ctx.effect` 挂一个每秒运行的后台采样器，经 `ctx.shell` 采样（`/proc/stat`、`nproc`、`/proc/meminfo`、`df -P /`），把最新快照写入内存缓存。路由 `GET /dsh-sysmon/api` 只返回缓存（亚毫秒、零子进程开销），并拒绝非 GET 方法与跨源浏览器请求。CPU 使用率为相邻两次采样之间的增量（窗口约 1 秒），首次采样显示 0。
+- **Host**（`src/index.ts`）：通过 `ctx.interval` 挂载每秒运行且随插件生命周期清理的后台采样器，经 `ctx.shell` 采样（`/proc/stat`、`nproc`、`/proc/meminfo`、`df -P /`），把最新快照写入内存缓存。路由 `GET /dsh-sysmon/api` 只返回缓存（亚毫秒、零子进程开销），并拒绝非 GET 方法与跨源浏览器请求。CPU 使用率为相邻两次采样之间的增量（窗口约 1 秒），首次采样显示 0。
 - **Client**（`src/client/index.ts`）：创建 `#dsh-sysmon` 固定定位元素，每 1 秒 `fetch` 一次路由，带 in-flight 守卫避免请求重叠；重绘只更新三个数值节点（diff 式）。纯 DOM 实现、零运行时依赖。
 
 ## 已知限制

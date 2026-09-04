@@ -25,9 +25,10 @@ interface HostContext {
     run(spec: unknown): Promise<{ exitCode: number | null; stdout: { text: string } }>
   }
   effect(callback: () => (() => void), label?: string): void
+  interval(callback: () => void, delay: number): () => void
 }
 
-export const inject = ['webServer', 'shell']
+export const inject = ['webServer', 'shell', 'timer']
 
 /** Sampler cadence; also the overlay's refresh period. */
 const SAMPLER_INTERVAL_MS = 1000
@@ -89,10 +90,7 @@ export function apply(ctx: HostContext): void {
     }
   }
   void sample()
-  const timer = setInterval(() => { void sample() }, SAMPLER_INTERVAL_MS)
-  ctx.effect(() => () => {
-    clearInterval(timer)
-  }, 'sysmon: background sampler')
+  ctx.interval(() => { void sample() }, SAMPLER_INTERVAL_MS)
   ctx.effect(() => {
     const disposeRoute = ctx.webServer.register({
       kind: 'exact',
